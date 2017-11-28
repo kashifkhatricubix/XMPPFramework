@@ -497,10 +497,6 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
 		XMPPJID *messageJid = isOutgoing ? [message to] : [message from];
 		NSString *messageID = [message attributeStringValueForName:@"id"];
 		// Fetch-n-Update OR Insert new message
-		
-        if (isReceived && [messageID length] == 0) {
-            messageID = [message receiptResponseID];
-        }
         
         XMPPMessageArchiving_Message_CoreDataObject *archivedMessage =
         [self composingMessageWithJid:messageJid
@@ -520,12 +516,6 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
             {
                 // Composing message has already been deleted (or never existed)
             }
-        }
-        else if(isReceived)
-        {
-            [archivedMessage setIsDelivered:YES];
-            [self didUpdateMessage:archivedMessage]; // Override hook
-            NSLog(@"%@",archivedMessage.body);
         }
         else
         {
@@ -564,9 +554,6 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
                 
                 archivedMessage.bareJid = [messageJid bareJID];
                 archivedMessage.streamBareJidStr = [myJid bare];
-                
-                [archivedMessage setIsUploaded:YES];
-                archivedMessage.isDownloaded = archivedMessage.isDownloaded;
                 archivedMessage.isFailed    = archivedMessage.isFailed;
                 archivedMessage.type    = archivedMessage.type;
             }
