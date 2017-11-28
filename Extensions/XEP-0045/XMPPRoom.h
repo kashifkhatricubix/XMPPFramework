@@ -114,7 +114,7 @@ static NSString *const XMPPMUCOwnerNamespace = @"http://jabber.org/protocol/muc#
  * @see configureRoomUsingOptions:
 **/
 - (void)fetchConfigurationForm;
-
+- (void)fetchConfigurationFrom:(XMPPJID *)fromUser;
 /**
  * Pass nil to accept the default configuration.
 **/

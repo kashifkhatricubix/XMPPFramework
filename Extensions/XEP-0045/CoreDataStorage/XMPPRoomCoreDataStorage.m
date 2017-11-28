@@ -562,6 +562,35 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 	return ([results count] > 0);
 }
 
+- (XMPPRoomMessageCoreDataStorageObject *)isMessageExists:(XMPPMessage *)message forRoom:(XMPPRoom *)room stream:(XMPPStream *)xmppStream
+{
+    NSLog(@"%@",message);
+    
+    NSManagedObjectContext *moc = [self managedObjectContext];
+    NSEntityDescription *messageEntity = [self messageEntity:moc];
+    
+    NSString *messageID = [message attributeStringValueForName:@"id"];
+    
+    NSString *predicateFormat = @"messageID == %@";
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, messageID];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:messageEntity];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:1];
+    
+    NSError *error = nil;
+    NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
+    
+    if (error)
+    {
+        XMPPLogError(@"%@: %@ - Fetch error: %@", THIS_FILE, THIS_METHOD, error);
+    }
+    
+    return (XMPPRoomMessageCoreDataStorageObject *) [results firstObject];
+}
+
 /**
  * Optional override hook for general extensions.
  * 
@@ -960,27 +989,29 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 	XMPPJID *myRoomJID = room.myRoomJID;
 	XMPPJID *messageJID = [message from];
 	
-	if ([myRoomJID isEqualToJID:messageJID])
-	{
-		if (![message wasDelayed])
-		{
-			// Ignore - we already stored message in handleOutgoingMessage:room:
-			return;
-		}
-	}
+//	if ([myRoomJID isEqualToJID:messageJID])
+//	{
+//		if (![message wasDelayed])
+//		{
+//			// Ignore - we already stored message in handleOutgoingMessage:room:
+//			return;
+//		}
+//	}
 	
 	XMPPStream *xmppStream = room.xmppStream;
 	
 	[self scheduleBlock:^{
 		
-		if ([self existsMessage:message forRoom:room stream:xmppStream])
-		{
-			XMPPLogVerbose(@"%@: %@ - Duplicate message", THIS_FILE, THIS_METHOD);
-		}
-		else
-		{
-			[self insertMessage:message outgoing:NO forRoom:room stream:xmppStream];
-		}
+        //if ([self existsMessage:message forRoom:room stream:xmppStream])
+        if ([self isMessageExists:message forRoom:room stream:xmppStream])
+        {
+            NSLog(@" #Room - handleIncomingMessage : DUPLICATE MESSAGE");
+            XMPPLogVerbose(@"%@: %@ - Duplicate message", THIS_FILE, THIS_METHOD);
+        }
+        else
+        {
+            [self insertMessage:message outgoing:NO forRoom:room stream:xmppStream];
+        }
 	}];
 }
 

@@ -71,4 +71,6 @@
  
 */
 
+- (void) setMessageFailed:(NSString *)messageId;
+
 @end
