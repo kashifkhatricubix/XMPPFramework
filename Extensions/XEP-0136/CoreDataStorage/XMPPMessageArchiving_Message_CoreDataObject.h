@@ -15,6 +15,9 @@
  * Regardless of whether the message was incoming or outgoing,
  * this will represent the "other" participant in the conversation.
 **/
+
+@property (nonatomic, strong) NSNumber *messageID;
+
 @property (nonatomic, strong) XMPPJID * bareJid;      // Transient (proper type, not on disk)
 @property (nonatomic, strong) NSString * bareJidStr;  // Shadow (binary data, written to disk)
 
@@ -30,6 +33,22 @@
 @property (nonatomic, strong) NSDate * timestamp;
 
 @property (nonatomic, strong) NSString * streamBareJidStr;
+
+@property (nonatomic, strong) NSNumber * failed;   // Use isFailed
+@property (nonatomic, assign) BOOL isFailed;       // Convenience property
+
+@property (nonatomic, strong) NSNumber * read;   // Use isFailed
+@property (nonatomic, assign) BOOL isRead;       // Convenience property
+
+/**
+ * The 'type' property can be used to inject message type.
+ * For example: "0 for text message, 1 for image, 2 for video".
+ *
+ * You can define your own types to suit your needs.
+ * All normal messages will have a type of zero.
+ **/
+
+@property (nonatomic, strong) NSNumber * type;
 
 /**
  * This method is called immediately before the object is inserted into the managedObjectContext.

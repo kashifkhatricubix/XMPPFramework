@@ -23,6 +23,9 @@
 @dynamic composing;
 @dynamic timestamp;
 @dynamic streamBareJidStr;
+@dynamic failed
+@dynamic type;
+@dynamic messageID;
 
 #pragma mark Transient message
 
@@ -152,6 +155,26 @@
 - (void)setIsComposing:(BOOL)flag
 {
 	self.composing = @(flag);
+}
+
+- (BOOL)isFailed
+{
+    return [self.failed boolValue];
+}
+
+- (void)setIsFailed:(BOOL)flag
+{
+    self.failed = [NSNumber numberWithBool:flag];
+}
+
+- (BOOL)isRead
+{
+    return [self.read boolValue];
+}
+
+- (void)setIsRead:(BOOL)flag
+{
+    self.read = [NSNumber numberWithBool:flag];
 }
 
 #pragma mark Hooks
