@@ -40,6 +40,8 @@
 @property (nonatomic, strong) NSNumber * read;   // Use isFailed
 @property (nonatomic, assign) BOOL isRead;       // Convenience property
 
+@property (nonatomic, strong) NSString * messageStatus;
+
 /**
  * The 'type' property can be used to inject message type.
  * For example: "0 for text message, 1 for image, 2 for video".
