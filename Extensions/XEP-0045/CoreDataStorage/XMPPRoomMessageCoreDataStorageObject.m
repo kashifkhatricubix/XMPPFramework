@@ -39,6 +39,9 @@
 @dynamic remoteTimestamp;
 @dynamic isFromMe;
 @dynamic fromMe;
+@dynamic messageType;
+@dynamic messageID;
+@dynamic failed;
 
 @dynamic type;
 
@@ -152,6 +155,27 @@
 {
 	self.fromMe = @(value);
 }
+
+- (BOOL)isFailed
+{
+    return [self.failed boolValue];
+}
+
+- (void)setIsFailed:(BOOL)flag
+{
+    self.failed = [NSNumber numberWithBool:flag];
+}
+
+- (BOOL)isNewMessage
+{
+    return [self.newMessage boolValue];
+}
+
+- (void)setIsNewMessage:(BOOL)flag
+{
+    self.newMessage = [NSNumber numberWithBool:flag];
+}
+
 
 #pragma mark - Message
 - (XMPPMessage *)message

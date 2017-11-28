@@ -11,6 +11,8 @@
  * The properties below are documented in the XMPPRoomMessage protocol.
 **/
 
+@property (nonatomic, strong) NSNumber *messageID;
+
 @property (nonatomic, retain) XMPPMessage * message;  // Transient (proper type, not on disk)
 @property (nonatomic, retain) NSString * messageStr;  // Shadow (binary data, written to disk)
 
@@ -28,6 +30,18 @@
 
 @property (nonatomic, assign) BOOL isFromMe;
 @property (nonatomic, strong) NSNumber * fromMe;
+
+@property (nonatomic, strong) NSNumber * failed;   // Use isFailed
+@property (nonatomic, assign) BOOL isFailed;       // Convenience property
+
+@property (nonatomic, strong) NSNumber * newMessage;
+@property (nonatomic, assign) BOOL isNewMessage;
+
+/**
+ * The 'type' property can be used to inject message type.
+ * For example: "0 for text message, 1 for image, 2 for video".
+ */
+@property (nonatomic, strong) NSNumber * messageType;
 
 /**
  * The 'type' property can be used to inject event messages.
