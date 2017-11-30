@@ -976,10 +976,16 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 	
 	XMPPStream *xmppStream = room.xmppStream;
 	
-	[self scheduleBlock:^{
-		
-		[self insertMessage:message outgoing:YES forRoom:room stream:xmppStream];
-	}];
+    [self scheduleBlock:^{
+        if ([self isMessageExists:message forRoom:room stream:xmppStream])
+        {
+            NSLog(@" #Room - handleOutgoingMessage : DUPLICATE MESSAGE");
+        }
+        else
+        {
+            [self insertMessage:message outgoing:YES forRoom:room stream:xmppStream];
+        }
+    }];
 }
 
 - (void)handleIncomingMessage:(XMPPMessage *)message room:(XMPPRoom *)room
