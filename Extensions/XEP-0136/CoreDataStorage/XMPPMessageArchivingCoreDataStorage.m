@@ -620,6 +620,7 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
                 contact.mostRecentMessageTimestamp = archivedMessage.timestamp;
                 contact.mostRecentMessageBody = archivedMessage.body;
                 contact.mostRecentMessageOutgoing = [NSNumber numberWithBool:isOutgoing];
+                contact.nickName = [message attributeStringValueForName:@"number"];
                 
                 XMPPLogVerbose(@"New contact: %@", contact);
                 

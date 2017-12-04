@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSNumber * mostRecentMessageOutgoing;
 
 @property (nonatomic, strong) NSString * streamBareJidStr;
+@property (nonatomic, strong) NSString * nickName;
 
 /**
  * This method is called immediately before the object is inserted into the managedObjectContext.
