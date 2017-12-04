@@ -661,6 +661,7 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 	roomMessage.remoteTimestamp = remoteTimestamp;
 	roomMessage.isFromMe = isOutgoing;
 	roomMessage.streamBareJidStr = streamBareJidStr;
+    roomMessage.messageType = [NSNumber numberWithInt:[message attributeIntValueForName:@"message_type"]];
 	
 	[moc insertObject:roomMessage];      // Hook if subclassing XMPPRoomMessageCoreDataStorageObject (awakeFromInsert)
 	[self didInsertMessage:roomMessage]; // Hook if subclassing XMPPRoomCoreDataStorage
