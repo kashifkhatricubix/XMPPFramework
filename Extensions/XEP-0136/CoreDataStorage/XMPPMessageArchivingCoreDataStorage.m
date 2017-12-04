@@ -289,15 +289,15 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
 	NSEntityDescription *entity = [self contactEntity:moc];
 	
 	NSPredicate *predicate;
-	if (streamBareJidStr)
-	{
-		predicate = [NSPredicate predicateWithFormat:@"bareJidStr == %@ AND streamBareJidStr == %@",
-	                                                              contactBareJidStr, streamBareJidStr];
-	}
-	else
-	{
+//	if (streamBareJidStr)
+//	{
+//		predicate = [NSPredicate predicateWithFormat:@"bareJidStr == %@ AND streamBareJidStr == %@",
+//	                                                              contactBareJidStr, streamBareJidStr];
+//	}
+//	else
+//	{
 		predicate = [NSPredicate predicateWithFormat:@"bareJidStr == %@", contactBareJidStr];
-	}
+//	}
 	
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:entity];
