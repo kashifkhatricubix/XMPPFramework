@@ -652,6 +652,7 @@ static XMPPRoomCoreDataStorage *sharedInstance;
 	XMPPRoomMessageCoreDataStorageObject *roomMessage = (XMPPRoomMessageCoreDataStorageObject *)
 	    [[NSManagedObject alloc] initWithEntity:messageEntity insertIntoManagedObjectContext:nil];
 	
+    roomMessage.messageID = [NSNumber numberWithInt:[message attributeIntValueForName:@"id"]];
 	roomMessage.message = message;
 	roomMessage.roomJID = roomJID;
 	roomMessage.jid = messageJID;
