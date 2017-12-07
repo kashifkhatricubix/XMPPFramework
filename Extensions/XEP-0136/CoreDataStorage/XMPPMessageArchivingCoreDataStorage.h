@@ -72,5 +72,5 @@
 */
 
 - (void) setMessageFailed:(NSString *)messageId;
-
+- (void) resetCount:(XMPPJID *)jid;
 @end

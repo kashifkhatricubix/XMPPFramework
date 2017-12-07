@@ -448,6 +448,37 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
     }
 }
 
+- (void) resetCount:(XMPPJID *)jid
+{
+    [self scheduleBlock:^{
+        NSManagedObjectContext *moc = [self managedObjectContext];
+        
+        NSEntityDescription *entityDescription = [self contactEntity:moc];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc]init];
+        
+        NSPredicate *p=[NSPredicate predicateWithFormat:@"bareJidStr == %@", [jid bare]];
+        [request setPredicate:p];
+        [request setEntity:entityDescription];
+        
+        NSError *error;
+        NSArray *contacts = [moc executeFetchRequest:request error:&error];
+        
+        if ([contacts count] > 0) {
+            XMPPMessageArchiving_Contact_CoreDataObject *contact = [contacts lastObject];
+            
+            [contact setUnreadMessages:[NSNumber numberWithInteger:0]];
+            // setIsFailed:YES];
+            
+            if (![moc save:&error])
+            {
+                XMPPLogWarn(@"%@: Error saving - %@ %@", [self class], error, [error userInfo]);
+                [moc rollback];
+            }
+        }
+    }];
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Storage Protocol
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
