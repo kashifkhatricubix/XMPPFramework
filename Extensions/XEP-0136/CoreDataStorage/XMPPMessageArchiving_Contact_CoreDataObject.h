@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) NSString * streamBareJidStr;
 @property (nonatomic, strong) NSString * nickName;
+@property (nonatomic, strong) NSNumber * unreadMessages;
 
 /**
  * This method is called immediately before the object is inserted into the managedObjectContext.

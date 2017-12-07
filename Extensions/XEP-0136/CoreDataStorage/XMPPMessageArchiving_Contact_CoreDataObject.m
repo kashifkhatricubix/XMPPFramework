@@ -17,6 +17,7 @@
 @dynamic mostRecentMessageBody;
 @dynamic mostRecentMessageOutgoing;
 @dynamic streamBareJidStr;
+@dynamic unreadMessages;
 
 #pragma mark Transient bareJid
 
