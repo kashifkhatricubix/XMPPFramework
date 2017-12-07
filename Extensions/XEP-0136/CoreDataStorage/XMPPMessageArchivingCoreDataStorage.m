@@ -621,7 +621,7 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
                 contact.mostRecentMessageBody = archivedMessage.body;
                 contact.mostRecentMessageOutgoing = [NSNumber numberWithBool:isOutgoing];
                 contact.nickName = [message attributeStringValueForName:@"number"];
-                contact.unreadMessages = [NSNumber numberWithInt:(Int(contact.unreadMessages) + 1)];
+                contact.unreadMessages = [NSNumber numberWithInteger:(contact.unreadMessages.integerValue) + 1];
                 XMPPLogVerbose(@"New contact: %@", contact);
                 
                 if (didCreateNewContact) // [contact isInserted] doesn't seem to work
