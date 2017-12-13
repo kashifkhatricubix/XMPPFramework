@@ -1075,28 +1075,38 @@ enum XMPPRoomState
 	// A message to all recipients MUST be of type groupchat.
 	// A message to an individual recipient would have a <body/>.
 	
-	BOOL isChatMessage;
-	
-	if ([from isFull])
-		isChatMessage = [message isGroupChatMessageWithBody];
-	else
-		isChatMessage = [message isMessageWithBody];
-	
-	if (isChatMessage)
-	{
-		[xmppRoomStorage handleIncomingMessage:message room:self];
-		[multicastDelegate xmppRoom:self didReceiveMessage:message fromOccupant:from];
-	}
+    BOOL isChatMessage;
+    
+    if ([message isGroupChatMessageWithAdmin]) {
+        NSString *jidStr = [message getAdminJID];
+        if ([jidStr length] > 0) {
+            XMPPJID *jid = [XMPPJID jidWithString:jidStr];
+            if ([sender.myJID isEqualToJID:jid]) {
+                isChatMessage = true;
+            }
+        }
+        isChatMessage = false;
+    }
+    else if ([from isFull])
+        isChatMessage = [message isGroupChatMessageWithBody];
+    else
+        isChatMessage = [message isMessageWithBody];
+    
+    if (isChatMessage)
+    {
+        [xmppRoomStorage handleIncomingMessage:message room:self];
+        [multicastDelegate xmppRoom:self didReceiveMessage:message fromOccupant:from];
+    }
     else if ([message isGroupChatMessageWithSubject])
     {
         roomSubject = [message subject];
         [multicastDelegate xmppRoomDidChangeSubject:self didReceiveMessage:message];
-//        [multicastDelegate xmppRoomDidChangeSubject:self];
+        //        [multicastDelegate xmppRoomDidChangeSubject:self];
     }
-	else
-	{
-		// Todo... Handle other types of messages.
-	}
+    else
+    {
+        // Todo... Handle other types of messages.
+    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message
@@ -1117,17 +1127,19 @@ enum XMPPRoomState
 	// A message to all recipients MUST be of type groupchat.
 	// A message to an individual recipient would have a <body/>.
 	
-	BOOL isChatMessage;
-	
-	if ([to isFull])
-		isChatMessage = [message isGroupChatMessageWithBody];
-	else
-		isChatMessage = [message isMessageWithBody];
-	
-	if (isChatMessage)
-	{
-		[xmppRoomStorage handleOutgoingMessage:message room:self];	
-	}
+    BOOL isChatMessage;
+    
+    if ([message isGroupChatMessageWithAdmin])
+        isChatMessage = false;
+    else if ([to isFull])
+        isChatMessage = [message isGroupChatMessageWithBody];
+    else
+        isChatMessage = [message isMessageWithBody];
+    
+    if (isChatMessage)
+    {
+        [xmppRoomStorage handleOutgoingMessage:message room:self];
+    }
 }
 
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error

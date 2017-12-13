@@ -7,5 +7,7 @@
 @property (nonatomic, readonly) BOOL isGroupChatMessage;
 @property (nonatomic, readonly) BOOL isGroupChatMessageWithBody;
 @property (nonatomic, readonly) BOOL isGroupChatMessageWithSubject;
+@property (nonatomic, readonly) BOOL isGroupChatMessageWithAdmin;
+@property (nonatomic, readonly) NSString* getAdminJID;
 
 @end
