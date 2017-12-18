@@ -320,5 +320,9 @@ static NSString *const XMPPMUCOwnerNamespace = @"http://jabber.org/protocol/muc#
 - (void)xmppRoomDidChangeSubject:(XMPPRoom *)sender;
 - (void)xmppRoomDidChangeSubject:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message;
 
+- (void)xmppRoomDidChangeMetadata:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message;
+- (void)xmppRoomDidChangeNewUser:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message;
+- (void)xmppRoomDidChangeRemoveUser:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message;
+
 @end
 NS_ASSUME_NONNULL_END

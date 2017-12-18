@@ -11,7 +11,7 @@
  * The properties below are documented in the XMPPRoomMessage protocol.
 **/
 
-@property (nonatomic, strong) NSNumber *messageID;
+@property (nonatomic, strong) NSString *messageID;
 
 @property (nonatomic, retain) XMPPMessage * message;  // Transient (proper type, not on disk)
 @property (nonatomic, retain) NSString * messageStr;  // Shadow (binary data, written to disk)

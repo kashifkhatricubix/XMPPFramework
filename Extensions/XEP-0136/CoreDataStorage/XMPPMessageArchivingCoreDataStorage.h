@@ -70,7 +70,9 @@
 @property (readonly) NSManagedObjectContext *mainThreadManagedObjectContext;
  
 */
-
+- (void) insertContact:(XMPPMessage *)message;
+- (void) updateContact:(XMPPMessage *)message JID:(XMPPJID *)jid;
+- (void) deleteContact:(XMPPJID *)jid;
 - (void) setMessageFailed:(NSString *)messageId;
 - (void) resetCount:(XMPPJID *)jid;
 @end

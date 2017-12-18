@@ -54,4 +54,29 @@
     return nil;
 }
 
+- (BOOL)isGroupChatMessageWithMetadata
+{
+    DDXMLElement *elementAdmin = [self elementForName:@"metadata"];
+    if (elementAdmin != nil) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)isGroupChatMessageWithNewUser
+{
+    DDXMLElement *element = [self elementForName:@"add"];
+    if (element != nil) {
+        return YES;
+    }
+    return NO;
+}
+- (BOOL)isGroupChatMessageWithRemoveUser
+{
+    DDXMLElement *element = [self elementForName:@"kicked"];
+    if (element != nil) {
+        return YES;
+    }
+    return NO;
+}
 @end
