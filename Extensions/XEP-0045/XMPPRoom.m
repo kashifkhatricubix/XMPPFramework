@@ -807,7 +807,7 @@ enum XMPPRoomState
 
 - (void)inviteUser:(XMPPJID *)jid withMessage:(NSString *)invitationMessage info:(NSDictionary *)roomInfo
 {
-    [self inviteUsers:@[jid] withMessage:invitationMessage];
+    [self inviteUsers:@[jid] withMessage:invitationMessage info:roomInfo];
 }
 
 - (void)inviteUsers:(NSArray<XMPPJID *> *)jids withMessage:(NSString *)invitationMessage info:(NSDictionary *)roomInfo
