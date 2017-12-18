@@ -805,12 +805,12 @@ enum XMPPRoomState
 #pragma mark Messages
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-- (void)inviteUser:(XMPPJID *)jid withMessage:(NSString *)invitationMessage
+- (void)inviteUser:(XMPPJID *)jid withMessage:(NSString *)invitationMessage info:(NSDictionary *)roomInfo
 {
     [self inviteUsers:@[jid] withMessage:invitationMessage];
 }
 
-- (void)inviteUsers:(NSArray<XMPPJID *> *)jids withMessage:(NSString *)invitationMessage
+- (void)inviteUsers:(NSArray<XMPPJID *> *)jids withMessage:(NSString *)invitationMessage info:(NSDictionary *)roomInfo
 {
     dispatch_block_t block = ^{ @autoreleasepool {
         
