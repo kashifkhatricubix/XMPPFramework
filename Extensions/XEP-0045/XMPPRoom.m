@@ -834,15 +834,30 @@ enum XMPPRoomState
         NSXMLElement *x = [NSXMLElement elementWithName:@"x" xmlns:XMPPMUCUserNamespace];
         
         for (XMPPJID *jid in jids) {
+            
+            NSXMLElement *x = [NSXMLElement elementWithName:@"x" xmlns:XMPPMUCUserNamespace];
+            
             NSXMLElement *invite = [self inviteElementWithJid:jid invitationMessage:invitationMessage];
             [x addChild:invite];
+            
+            XMPPMessage *message = [XMPPMessage message];
+            [message addAttributeWithName:@"to" stringValue:[roomJID full]];
+            
+            NSXMLElement *roomInfoElement = [NSXMLElement elementWithName:@"roominfo" xmlns:@"MosekaTel"];
+            
+            NSXMLElement *name = [NSXMLElement elementWithName:@"group_name" stringValue:[roomInfo objectForKey:@"name"]];
+            NSXMLElement *image = [NSXMLElement elementWithName:@"image" stringValue:[roomInfo objectForKey:@"image"]];
+            NSXMLElement *thumb = [NSXMLElement elementWithName:@"thumb" stringValue:[roomInfo objectForKey:@"thumb"]];
+            
+            [roomInfoElement addChild:name];
+            [roomInfoElement addChild:image];
+            [roomInfoElement addChild:thumb];
+            
+            [message addChild:x];
+            [message addChild:roomInfoElement];
+            
+            [xmppStream sendElement:message];
         }
-        
-        XMPPMessage *message = [XMPPMessage message];
-        [message addAttributeWithName:@"to" stringValue:[roomJID full]];
-        [message addChild:x];
-        
-        [xmppStream sendElement:message];
         
     }};
     

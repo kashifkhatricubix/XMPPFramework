@@ -227,7 +227,12 @@ NSString *const kXMPPvCardAvatarPhotoElement = @"photo";
 	// check the hash
     if ([photoHash caseInsensitiveCompare:savedPhotoHash] != NSOrderedSame
         && !([photoHash length] == 0 && [savedPhotoHash length] == 0)) {
-		[_xmppvCardTempModule fetchvCardTempForJID:jid ignoreStorage:YES];
+        if ([[presence fromStr] containsString:@"conference"]) {
+            
+        } else {
+            [_xmppvCardTempModule fetchvCardTempForJID:jid ignoreStorage:YES];
+        }
+        //		[_xmppvCardTempModule fetchvCardTempForJID:jid ignoreStorage:YES];
 	}
 }
 

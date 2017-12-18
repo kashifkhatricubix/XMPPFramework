@@ -128,11 +128,13 @@ static NSString *const XMPPMUCOwnerNamespace = @"http://jabber.org/protocol/muc#
 - (void)changeNickname:(NSString *)newNickname;
 - (void)changeRoomSubject:(NSString *)newRoomSubject;
 
-- (void)inviteUser:(XMPPJID *)jid withMessage:(nullable NSString *)invitationMessage;
+- (void)inviteUser:(XMPPJID *)jid withMessage:(NSString *)invitationMessage info:(NSDictionary *)roomInfo;
+//- (void)inviteUser:(XMPPJID *)jid withMessage:(nullable NSString *)invitationMessage;
 /**
  * Allows sending invitation message with multiple invitees
  */
-- (void)inviteUsers:(NSArray<XMPPJID *> *)jids withMessage:(nullable NSString *)invitationMessage;
+//- (void)inviteUsers:(NSArray<XMPPJID *> *)jids withMessage:(nullable NSString *)invitationMessage;
+- (void)inviteUsers:(NSArray<XMPPJID *> *)jids withMessage:(NSString *)invitationMessage info:(NSDictionary *)roomInfo;
 
 - (void)sendMessage:(XMPPMessage *)message;
 

@@ -452,6 +452,8 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
 {
     [self scheduleBlock:^{
         
+        NSDate *stamp;
+        
         NSManagedObjectContext *moc = [self managedObjectContext];
         //    XMPPMessageArchiving_Contact_CoreDataObject *contact = [self contactWithBareJidStr:[[message from] bare] streamBareJidStr:[[message from] bare] managedObjectContext:moc];
         
@@ -465,7 +467,21 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
         contact.bareJid = message.from;
         contact.mostRecentMessageBody = [message body];
         contact.mostRecentMessageOutgoing = [NSNumber numberWithBool:false];
-        contact.mostRecentMessageTimestamp = [NSDate date];
+        
+        if ([message attributeForName:@"timestamp"] != nil) {
+            NSString *stampValue = [message attributeStringValueForName:@"timestamp"];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+            [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+            
+            stamp = [dateFormatter dateFromString:stampValue];
+            contact.mostRecentMessageTimestamp = stamp;
+        } else {
+            contact.mostRecentMessageTimestamp = [NSDate date];
+        }
+        
         contact.unreadMessages = [NSNumber numberWithInteger:0];
         [moc insertObject:contact];
         NSError *error;
