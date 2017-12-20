@@ -494,7 +494,7 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
     }];
 }
 
-- (void) updateContact:(XMPPMessage *)message JID:(XMPPJID *)jid
+- (void) updateContact:(XMPPMessage *)message JID:(XMPPJID *)jid counter:(NSInteger)number
 {
     [self scheduleBlock:^{
         
@@ -506,6 +506,11 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
         contact.mostRecentMessageBody = [message body];
         contact.mostRecentMessageOutgoing = [NSNumber numberWithBool:false];
         contact.mostRecentMessageTimestamp = [NSDate date];
+        
+        if (number != 0) {
+            contact.unreadMessages = [NSNumber numberWithInteger:(contact.unreadMessages.integerValue + number)];
+        }
+        
         NSError *error;
         
         if (![moc save:&error])

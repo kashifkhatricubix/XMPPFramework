@@ -71,6 +71,7 @@
     }
     return NO;
 }
+
 - (BOOL)isGroupChatMessageWithRemoveUser
 {
     DDXMLElement *element = [self elementForName:@"kicked"];
@@ -79,4 +80,14 @@
     }
     return NO;
 }
+
+- (BOOL)isGroupChatMessageWithExit
+{
+    DDXMLElement *element = [self elementForName:@"exit"];
+    if (element != nil) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

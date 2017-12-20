@@ -1093,25 +1093,16 @@ enum XMPPRoomState
     BOOL isChatMessage;
     
     if ([message isGroupChatMessageWithAdmin]) {
-        NSString *jidStr = [message getAdminJID];
-        if ([jidStr length] > 0) {
-            XMPPJID *jid = [XMPPJID jidWithString:jidStr];
-            if ([sender.myJID isEqualToJID:jid]) {
-                isChatMessage = true;
-            }
-        }
         isChatMessage = false;
-    }
-    else if ([message isGroupChatMessageWithNewUser]) {
+    } else if ([message isGroupChatMessageWithNewUser]) {
         isChatMessage = false;
-    }
-    else if ([message isGroupChatMessageWithMetadata]) {
+    } else if ([message isGroupChatMessageWithMetadata]) {
         isChatMessage = false;
-    }
-    else if ([message isGroupChatMessageWithRemoveUser]) {
+    } else if ([message isGroupChatMessageWithExit]) {
         isChatMessage = false;
-    }
-    else if ([from isFull])
+    } else if ([message isGroupChatMessageWithRemoveUser]) {
+        isChatMessage = false;
+    } else if ([from isFull])
         isChatMessage = [message isGroupChatMessageWithBody];
     else
         isChatMessage = [message isMessageWithBody];
@@ -1138,6 +1129,14 @@ enum XMPPRoomState
     else if ([message isGroupChatMessageWithMetadata])
     {
         [multicastDelegate xmppRoomDidChangeMetadata:self didReceiveMessage:message];
+    }
+    else if ([message isGroupChatMessageWithExit])
+    {
+        [multicastDelegate xmppRoomDidChangeExitUser:self didReceiveMessage:message];
+    }
+    else if ([message isGroupChatMessageWithAdmin])
+    {
+        [multicastDelegate xmppRoomDidChangeNewAdmin:self didReceiveMessage:message];
     }
     else
     {

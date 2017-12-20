@@ -11,5 +11,6 @@
 @property (nonatomic, readonly) BOOL isGroupChatMessageWithMetadata;
 @property (nonatomic, readonly) BOOL isGroupChatMessageWithNewUser;
 @property (nonatomic, readonly) BOOL isGroupChatMessageWithRemoveUser;
+@property (nonatomic, readonly) BOOL isGroupChatMessageWithExit;
 @property (nonatomic, readonly) NSString* getAdminJID;
 @end
