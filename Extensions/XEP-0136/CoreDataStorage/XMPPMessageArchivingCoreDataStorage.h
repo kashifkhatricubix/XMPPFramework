@@ -75,4 +75,5 @@
 - (void) deleteContact:(XMPPJID *)jid;
 - (void) setMessageFailed:(NSString *)messageId;
 - (void) resetCount:(XMPPJID *)jid;
+- (void) updateContactNickName:(NSString *)nickName JID:(XMPPJID *)jid;
 @end

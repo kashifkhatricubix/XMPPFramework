@@ -521,6 +521,25 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
     }];
 }
 
+- (void) updateContactNickName:(NSString *)nickName JID:(XMPPJID *)jid
+{
+    [self scheduleBlock:^{
+        
+        NSManagedObjectContext *moc = [self managedObjectContext];
+        XMPPMessageArchiving_Contact_CoreDataObject *contact = [self contactWithJid:jid streamJid:jid managedObjectContext:moc];
+        
+        contact.nickName = nickName;
+        
+        NSError *error;
+        
+        if (![moc save:&error])
+        {
+            XMPPLogWarn(@"%@: Error saving - %@ %@", [self class], error, [error userInfo]);
+            [moc rollback];
+        }
+    }];
+}
+
 - (void) deleteContact:(XMPPJID *)jid
 {
     [self scheduleBlock:^{
