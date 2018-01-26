@@ -72,7 +72,10 @@
 */
 - (void) insertContact:(XMPPMessage *)message;
 - (void) updateContact:(XMPPMessage *)message JID:(XMPPJID *)jid counter:(NSInteger)number;
+- (void) clearContactData:(XMPPJID *)jid;
 - (void) deleteContact:(XMPPJID *)jid;
+- (void) deleteAllContacts;
+- (void) deleteAllMessages;
 - (void) setMessageFailed:(NSString *)messageId;
 - (void) resetCount:(XMPPJID *)jid;
 - (void) updateContactNickName:(NSString *)nickName JID:(XMPPJID *)jid;

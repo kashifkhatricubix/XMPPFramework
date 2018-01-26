@@ -521,6 +521,26 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
     }];
 }
 
+- (void) clearContactData:(XMPPJID *)jid
+{
+    [self scheduleBlock:^{
+        
+        NSManagedObjectContext *moc = [self managedObjectContext];
+        XMPPMessageArchiving_Contact_CoreDataObject *contact = [self contactWithJid:jid streamJid:jid managedObjectContext:moc];
+        
+        [contact setUnreadMessages:[NSNumber numberWithInteger:0]];
+        contact.mostRecentMessageBody = @"";
+        
+        NSError *error;
+        
+        if (![moc save:&error])
+        {
+            XMPPLogWarn(@"%@: Error saving - %@ %@", [self class], error, [error userInfo]);
+            [moc rollback];
+        }
+    }];
+}
+
 - (void) updateContactNickName:(NSString *)nickName JID:(XMPPJID *)jid
 {
     [self scheduleBlock:^{
@@ -560,6 +580,56 @@ static XMPPMessageArchivingCoreDataStorage *sharedInstance;
     }];
 }
 
+- (void) deleteAllContacts
+{
+    [self scheduleBlock:^{
+        
+        NSManagedObjectContext *moc = [self managedObjectContext];
+        NSEntityDescription *entity = [self contactEntity:moc];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entity];
+        
+        NSError *error = nil;
+        NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
+        
+        for (XMPPMessageArchiving_Contact_CoreDataObject *contact in results) {
+            [moc deleteObject:contact];
+            
+        }
+        
+        if (![moc save:&error])
+        {
+            XMPPLogWarn(@"%@: Error saving - %@ %@", [self class], error, [error userInfo]);
+            [moc rollback];
+        }
+    }];
+}
+
+- (void) deleteAllMessages
+{
+    [self scheduleBlock:^{
+        
+        NSManagedObjectContext *moc = [self managedObjectContext];
+        NSEntityDescription *entity = [self messageEntity:moc];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entity];
+        
+        NSError *error = nil;
+        NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
+        
+        for (XMPPMessageArchiving_Message_CoreDataObject *message in results) {
+            [moc deleteObject:message];
+        }
+        
+        if (![moc save:&error])
+        {
+            XMPPLogWarn(@"%@: Error saving - %@ %@", [self class], error, [error userInfo]);
+            [moc rollback];
+        }
+    }];
+}
 
 - (void) resetCount:(XMPPJID *)jid
 {
